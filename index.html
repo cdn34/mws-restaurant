@@ -16,12 +16,12 @@
   </header>
 
   <main id="maincontent">
-    <section id="map-container">
+    <section id="map-container" aria-hidden="true">
       <div id="map"></div>
     </section>
     <section id="filter-area">
       <div class="filter-options">
-        <!-- <h2>Filter Results</h2> -->
+        <h2>Filter Results</h2>
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <title>filter_list</title>
           <path d="M6 12.984v-1.969h12v1.969h-12zM3 6h18v2.016h-18v-2.016zM9.984 18v-2.016h4.031v2.016h-4.031z"></path>
@@ -33,7 +33,7 @@
           <option value="all">All Cuisines</option>
         </select>
       </div>
-      <ul id="restaurants-list"></ul>
+      <ul id="restaurants-list" role="list" aria-label="Restaurants' list"></ul>
     </section>
   </main>
 
@@ -61,15 +61,11 @@
 </html>
 
 <!-- 
-  
-  check if h2 should be off screen for aria
-
-  Single row cards, should not make the page exceed 100%
-  
+  Voiceover not focusing links safari (display: flex)
+  Add alt to images (OK)
+  check if h2 should be off screen for aria (OK)
   Add jump to page content acessibility trick
-<viewport tag>
-stop content from jumping
-Add media queries
+
 
 Replace css selector like #footer with footer tag
 

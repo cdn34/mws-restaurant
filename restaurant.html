@@ -2,40 +2,25 @@
 <html>
 
 <head>
-  <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Restaurant Info</title>
 </head>
 
 <body class="inside">
-  <!-- Beginning header -->
   <header>
-    <!-- Beginning nav -->
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
-    <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" >
+    <ul id="breadcrumb" role="navigation" aria-label="Breadcrumb">
       <li><a href="/">Home</a></li>
     </ul>
-    <!-- End breadcrumb -->
-    <!-- End nav -->
   </header>
-  <!-- End header -->
-
-  <!-- Beginning main -->
   <main id="maincontent" class="restaurant-content">
-
-  <!-- Beginning map -->
-  <section id="map-container">
+  <section id="map-container" aria-hidden="true">
       <div id="map"></div>
     </section>
-    <!-- End map -->
-
-    <!-- Beginning restaurant -->
     <div id="section-wrapper">
       <section id="restaurant-container">
         <div class="restaurant-card">
@@ -44,34 +29,22 @@
           <div class="content">
             <img id="restaurant-img">
             <p id="restaurant-address"></p>
-            <table id="restaurant-hours"></table>
+            <table id="restaurant-hours" aria-label="Restaurant hours"></table>
           </div>
         </div>
       </section>
-      <!-- end restaurant -->
-      <!-- Beginning reviews -->
       <section id="reviews-container">
-        <ul id="reviews-list"></ul>
+        <ul id="reviews-list" role="list" aria-labelledby="reviews-header"></ul>
       </section>
     </div>
-    <!-- End reviews -->
   </main>
-  <!-- End main -->
-
-  <!-- Beginning footer -->
   <footer id="footer">
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
-  <!-- End footer -->
 
-  <!-- Beginning scripts -->
-  <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
-  <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
-  <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2s2CKiGPYkP7R6UWtyBtOBXRZsf7Y5_c&libraries=places&callback=initMap"></script>
-  <!-- End scripts -->
 
 </body>
 
