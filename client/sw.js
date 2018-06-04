@@ -1,4 +1,4 @@
-const currentCacheName = 'mws-restaurant-1';
+const currentCacheName = 'mws-restaurant-2';
 
 self.addEventListener('install', event => {
     let imgArray = []
@@ -13,12 +13,15 @@ self.addEventListener('install', event => {
 
             const requestMaps = new Request('https://maps.googleapis.com/maps/api/js?key=AIzaSyA2s2CKiGPYkP7R6UWtyBtOBXRZsf7Y5_c&libraries=places&callback=initMap', {mode: 'no-cors'});
             fetch(requestMaps).then(response => cache.put(requestMaps, response));
+            
+            const requestIdb = new Request('https://cdn.jsdelivr.net/npm/idb@2.1.2/lib/idb.min.js', {mode: 'no-cors'});
+            fetch(requestIdb).then(response => cache.put(requestIdb, response));
 
             return cache.addAll([
                 '/',
                 'restaurant.html',
                 'css/styles.css',
-                'data/restaurants.json',
+                'js/idb.js',
                 'js/dbhelper.js',
                 'js/main.js',
                 'js/restaurant_info.js',
