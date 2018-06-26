@@ -20,6 +20,16 @@ window.initMap = () => {
   });
 }
 
+const toggleMap = () => {
+  const mapElement = document.querySelector('#map-container');
+  const currentDisplay = mapElement.style.display;
+  if(!currentDisplay || currentDisplay === 'block')
+    mapElement.style.display = 'none';
+  else
+    mapElement.style.display = 'block';
+}
+
+
 /**
  * Get current restaurant from page URL.
  */

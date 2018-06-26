@@ -431,7 +431,8 @@
         "updatedAt": "2017-07-25T02:31:59.276Z",
         "id": 10
       }
-    ]
+    ],
+    "reviews": []
   },
   "schema": {
     "restaurant": {
@@ -461,6 +462,20 @@
       "updatedAt": {
         "type": "datetime"
       }
+    },
+    "reviews": {
+      "id": {
+        "type": "integer",
+        "autoIncrement": true,
+        "primaryKey": true,
+        "unique": true
+      },
+      "createdAt": {
+        "type": "datetime"
+      },
+      "updatedAt": {
+        "type": "datetime"
+      }
     }
   },
   "counters": {
@@ -469,6 +484,7 @@
     },
     "restaurants": {
       "id": 10
-    }
+    },
+    "reviews": {}
   }
 }

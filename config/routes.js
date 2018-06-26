@@ -36,11 +36,6 @@ module.exports.routes = {
   //   view: 'homepage'
   // }
 
-  // '/': {
-  //   controller: 'Restaurants',
-  //   action: 'index'
-  // }
-
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

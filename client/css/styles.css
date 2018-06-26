@@ -445,6 +445,26 @@ nav h1 a {
   white-space: pre-line;
 }
 
+#toggle-button {
+  display: none;
+  width: 48px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  height: 48px;
+  background-color: #e9104f;
+  fill: #fff;
+  border-radius: 100%;
+  outline: none;
+  border: 0;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+#toggle-button:active {
+  background-color: #af1313;
+}
+
+
 /* .no-transform {
   transition: transform .5s ease-in-out;
 } */
@@ -477,6 +497,14 @@ nav h1 a {
     height: 30%;
     position: initial;
   }
+
+  #toggle-button {
+    display: block;
+  }
+
+  #map-container {
+    display:none;
+  }
 }
 
 
@@ -486,6 +514,13 @@ nav h1 a {
     max-width:100%;
   }
 
+  #toggle-button {
+    display: block;
+  }
+
+  #map-container {
+    display:none;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -528,4 +563,11 @@ nav h1 a {
     height: calc(100% - var(--nav-height) - var(--breadcrumb-height)) !important;
   }
 
+  #toggle-button {
+    display: block;
+  }
+
+  #map-container {
+    display:none;
+  }
 }
