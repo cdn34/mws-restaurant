@@ -6,7 +6,7 @@ class DBHelper {
 
   static get DATABASE_URL() {
     const port = 1337 // Change this to your server port
-    return `http://localhost:${port}/restaurants`;
+    return `http://localhost:${port}`;
     // return `http://localhost:${port}/data/restaurants.json`;
   }
 
@@ -17,12 +17,28 @@ class DBHelper {
     try {
       let restaurants = await Idb.getAll('restaurants');
       if(!restaurants || restaurants.length === 0) {
-        restaurants = await fetch(DBHelper.DATABASE_URL).then(res => res.json());
+        restaurants = await fetch(`${DBHelper.DATABASE_URL}/restaurants`).then(res => res.json());
         await Idb.insert('restaurants', restaurants);
       }
       callback(null, restaurants);
     } catch(error) {
       callback(error, null);
+    }
+  }
+
+  static async fetchReviews(id) {
+    try {
+      let reviews;
+      if(navigator.onLine){
+        reviews = await fetch(`${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${id}`).then(res => res.json());
+        await Idb.insert('reviews', reviews);
+      } else {
+        reviews = await Idb.getAll('reviews');
+        reviews = reviews.filter(item => +item.restaurant_id === +id)
+      }
+      return reviews && reviews.length > 0 ? reviews : null;
+    } catch(error) {
+      return null;
     }
   }
 

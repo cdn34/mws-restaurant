@@ -1,7 +1,10 @@
-const dbPromise = idb.open('test-db', 1, upgradeDb => {
+const dbPromise = idb.open('test-db', 2, upgradeDb => {
     switch(upgradeDb.oldVersion) {
         case 0: 
             upgradeDb.createObjectStore('restaurants', { keyPath: 'id' });
+        case 1:
+            upgradeDb.createObjectStore('reviews', { keyPath: 'id' });
+
     }
 });
 

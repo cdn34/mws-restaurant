@@ -1,29 +1,37 @@
 let restaurant;
 var map;
+let reviews;
+
+
+document.addEventListener('DOMContentLoaded', event => {
+  document.querySelector('input[name="restaurant_id"]').setAttribute('value', getParameterByName('id'));
+});
+
 
 /**
  * Initialize Google map, called from HTML.
  */
-window.initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-    }
-  });
+window.initMap = async () => {
+    reviews = await DBHelper.fetchReviews(getParameterByName('id'));
+    fetchRestaurantFromURL((error, restaurant) => {
+      if (error) { // Got an error!
+        console.error(error);
+      } else {
+        self.map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 16,
+          center: restaurant.latlng,
+          scrollwheel: false
+        });
+        fillBreadcrumb();
+        DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      }
+    }); 
 }
 
 const toggleMap = () => {
   const mapElement = document.querySelector('#map-container');
   const currentDisplay = mapElement.style.display;
-  if(!currentDisplay || currentDisplay === 'block')
+  if(currentDisplay === 'block')
     mapElement.style.display = 'none';
   else
     mapElement.style.display = 'block';
@@ -104,7 +112,7 @@ const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hour
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+const fillReviewsHTML = () => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';

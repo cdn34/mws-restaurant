@@ -12,14 +12,18 @@
 <body class="inside">
   <header>
     <nav role="navigation">
-      <h1><a href="/">Restaurant Reviews</a></h1>
+      <h1>
+        <a href="/">Restaurant Reviews</a>
+      </h1>
       <ul id="breadcrumb" aria-label="Breadcrumb">
-        <li><a href="/">Home</a></li>
+        <li>
+          <a href="/">Home</a>
+        </li>
       </ul>
     </nav>
   </header>
   <main id="maincontent" class="restaurant-content">
-  <section id="map-container" role="application" tabindex="-1" aria-hidden="true">
+    <section id="map-container" role="application" tabindex="-1" aria-hidden="true">
       <div id="map"></div>
     </section>
     <div id="section-wrapper">
@@ -36,22 +40,39 @@
       </section>
       <section id="reviews-container">
         <ul id="reviews-list" role="list" aria-labelledby="reviews-header"></ul>
+        <form action="http://localhost:1337/reviews/" method="POST">
+          <input type="hidden" name="restaurant_id" value=""/>
+          <label>Name:
+            <input type="text" name="name" value="">
+          </label>
+          <br>
+          <label>Rating:
+             <input type="text" name="rating" value="">
+          </label>
+          <label>Comments:
+            <input type="text" name="comments" value="">
+          </label>
+          <button type="submit">Submit Review</button>
+        </form>
       </section>
     </div>
     <button id="toggle-button" onclick="toggleMap()">
-        <svg x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
-          <title>Toggle map</title>
-          <g id="Bounding_Boxes">
-            <path fill="none" d="M0,0h24v24H0V0z" />
-          </g>
-          <g id="Sharp">
-            <path d="M15,5.1L9,3L3,5.02v16.2l6-2.33l6,2.1l6-2.02V2.77L15,5.1z M15,18.89l-6-2.11V5.11l6,2.11V18.89z" />
-          </g>
-        </svg>
-      </button>
+      <svg x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+        <title>Toggle map</title>
+        <g id="Bounding_Boxes">
+          <path fill="none" d="M0,0h24v24H0V0z" />
+        </g>
+        <g id="Sharp">
+          <path d="M15,5.1L9,3L3,5.02v16.2l6-2.33l6,2.1l6-2.02V2.77L15,5.1z M15,18.89l-6-2.11V5.11l6,2.11V18.89z" />
+        </g>
+      </svg>
+    </button>
   </main>
   <footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+    Copyright (c) 2017
+    <a href="/">
+      <strong>Restaurant Reviews</strong>
+    </a> All Rights Reserved.
   </footer>
   <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/idb@2.1.2/lib/idb.min.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/idb.js"></script>

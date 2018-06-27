@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async event => {
 const toggleMap = () => {
   const mapElement = document.querySelector('#map-container');
   const currentDisplay = mapElement.style.display;
-  if(!currentDisplay || currentDisplay === 'block')
+  if(currentDisplay === 'block')
     mapElement.style.display = 'none';
   else
     mapElement.style.display = 'block';

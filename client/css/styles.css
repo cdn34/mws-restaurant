@@ -458,6 +458,7 @@ nav h1 a {
   outline: none;
   border: 0;
   box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  z-index:1;
 }
 
 #toggle-button:active {
