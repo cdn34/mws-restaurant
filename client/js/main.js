@@ -2,6 +2,11 @@ let restaurants, neighborhoods, cuisines;
 let map;
 let markers = [];
 
+
+const starIconBorder = `<path d="M22,9.24l-7.19-0.62L12,2L9.19,8.63L2,9.24l5.46,4.73L5.82,21L12,17.27L18.18,21l-1.63-7.03L22,9.24z M12,15.4l-3.76,2.27
+l1-4.28l-3.32-2.88l4.38-0.38L12,6.1l1.71,4.04l4.38,0.38l-3.32,2.88l1,4.28L12,15.4z"/>`;
+const starIconFill = `<path d="M12,17.27L18.18,21l-1.64-7.03L22,9.24l-7.19-0.61L12,2L9.19,8.63L2,9.24l5.46,4.73L5.82,21L12,17.27z"/>`;
+
 // Google maps code
 
 /**
@@ -48,13 +53,11 @@ document.addEventListener("DOMContentLoaded", async event => {
 });
 
 const toggleMap = () => {
-  const mapElement = document.querySelector('#map-container');
+  const mapElement = document.querySelector("#map-container");
   const currentDisplay = mapElement.style.display;
-  if(currentDisplay === 'block')
-    mapElement.style.display = 'none';
-  else
-    mapElement.style.display = 'block';
-}
+  if (currentDisplay === "block") mapElement.style.display = "none";
+  else mapElement.style.display = "block";
+};
 
 const fetchNeighborhoods = () => {
   DBHelper.fetchNeighborhoods((error, neighborhoods) => {
@@ -153,7 +156,7 @@ const resetRestaurants = restaurants => {
 
 const fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById("restaurants-list");
-  let elementsString = '';
+  let elementsString = "";
   restaurants.forEach(restaurant => {
     //filter(item => item.id === 1).
     // ul.append(createRestaurantHTML(restaurant));
@@ -196,9 +199,9 @@ const lazyLoadImages = () => {
  * Create restaurant HTML.
  */
 const createRestaurantHTML = restaurant => {
-  //   var $el = $(`
-  //   <h1>Hi, my name is ${myName}</h1>
-  // `);
+  const starIcon = restaurant.is_favorite === true || restaurant.is_favorite === 'true'
+    ? starIconFill
+    : starIconBorder;
 
   const el = `
     <li role="listitem">
@@ -209,40 +212,58 @@ const createRestaurantHTML = restaurant => {
       />
       <h3>${restaurant.name}</h3>
       <p>${restaurant.address}</p>
-      <a 
-        href="${DBHelper.urlForRestaurant(restaurant)}"
-        aria-label="${"View details, " + restaurant.name}"
-      >View Details</a>
+      <div class="star-button-container">
+        <a 
+          href="${DBHelper.urlForRestaurant(restaurant)}"
+          aria-label="${"View details, " + restaurant.name}"
+        >View Details</a>
+        <button id="star-button-${restaurant.id}" class="star-button" aria-label="Toggle favorite" onclick="toggleFavorite(${restaurant.id})">
+          <svg id="star-svg-${restaurant.id}" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px"height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+            ${starIcon}
+          </svg>
+        </button>
+      </div>
     </li>`;
   return el;
 
-  // const li = document.createElement('li');
-
-  // li.setAttribute('role', 'listitem');
-  // const image = document.createElement('img');
-  // image.className = 'restaurant-img';
-  // image.setAttribute('data-src',DBHelper.imageUrlForRestaurant(restaurant));
-  // // image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  // image.alt = `Image of ${restaurant.name} restaurant`;
-  // li.append(image);
-
-  // const name = document.createElement('h3');
-  // name.innerHTML = restaurant.name;
-  // li.append(name);
-
-  // const neighborhood = document.createElement('p');
-  // neighborhood.innerHTML = restaurant.neighborhood;
-  // li.append(neighborhood);
-
-  // const address = document.createElement('p');
-  // address.innerHTML = restaurant.address;
-  // li.append(address);
-
-  // const more = document.createElement('a');
-  // more.innerHTML = 'View Details';
-  // more.href = DBHelper.urlForRestaurant(restaurant);
-  // more.setAttribute('aria-label', 'View details, '+restaurant.name);
-  // li.append(more)
-
-  // return li;
 };
+
+const toggleFavorite = async id => {
+  //Get restaurant data from idb
+  const restaurant = await Idb.get('restaurants', id);
+  const starButton = document.querySelector(`#star-button-${id}`);
+  const starSvg = document.querySelector(`#star-svg-${id}`);
+  const starIcon = restaurant.is_favorite === true || restaurant.is_favorite === 'true'
+  ? starIconBorder
+  : starIconFill;
+
+  // Update svg right away
+  // Disable button to prevent multiple clicks while the request occurs
+  starSvg.innerHTML = starIcon;
+  starButton.setAttribute('disabled', true);
+
+  const newFavorite = restaurant.is_favorite === true || restaurant.is_favorite === 'true'
+    ? false
+    : true;
+
+  try {
+    //Updates record on the server
+    const response = await fetch(`http://localhost:1337/restaurants/${id}/`, {
+      method:"PUT",
+      body:new URLSearchParams({ is_favorite: newFavorite })
+    }).then(res => res.json());
+    
+    //Updates record in idb
+    await Idb.insert('restaurants', [response]);
+    starButton.removeAttribute('disabled');
+
+  } catch(error) {
+    console.log("error: ", error);
+    // Revert back to the original svg path in case of failure
+    starButton.removeAttribute('disabled');
+    const starIcon = restaurant.is_favorite === true || restaurant.is_favorite === 'true'
+      ? starIconFill
+      : starIconBorder;
+    document.querySelector(`#star-svg-${id}`).innerHTML = starIcon;
+  }
+}

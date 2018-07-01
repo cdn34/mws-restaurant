@@ -174,6 +174,7 @@ class DBHelper {
   static imageUrlForRestaurant(restaurant) {
     if(restaurant.photograph && !restaurant.photograph.endsWith('.jpg'))
       restaurant.photograph += '.jpg';
+    else restaurant.photograph = '404.jpg';
     return (`/img/${restaurant.photograph}`);
   }
 

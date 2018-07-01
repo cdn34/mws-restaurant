@@ -531,6 +531,31 @@ nav h1 a {
   transform: none !important;
 }
 
+.star-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.star-button {
+  min-height: 40px;
+  width: 40px;
+  margin: 15px 10px 0;
+  /* padding: 8px 30px 10px; */
+  background-color: #f6f6f6;
+  border: 0;
+  border-radius: 100%;
+  fill: #af1313;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.3);
+}
+
+.start-button:active {
+  background-color: #dadada;
+}
+
 
 /* .no-transform {
   transition: transform .5s ease-in-out;

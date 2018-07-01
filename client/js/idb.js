@@ -28,6 +28,13 @@ class Idb {
         return store.getAll();
     }
 
+    static async get(database, key) {
+        const db = await dbPromise;
+        const tx = db.transaction(database);
+        const store = tx.objectStore(database);
+        return store.get(key);
+    }
+
     static async delete (database, key) {
         const db = await dbPromise;
         const tx = db.transaction(database,'readwrite');
