@@ -23,8 +23,8 @@
     </nav>
   </header>
   <main id="maincontent" class="restaurant-content">
-    <section id="map-container" role="application" tabindex="-1" aria-hidden="true">
-      <div id="map"></div>
+    <section id="map-container" tabindex="-1" aria-hidden="true">
+      <div id="map" role="application"></div>
     </section>
     <div id="section-wrapper">
       <section id="restaurant-container">
@@ -40,22 +40,25 @@
       </section>
       <section id="reviews-container">
         <ul id="reviews-list" role="list" aria-labelledby="reviews-header"></ul>
-        <form action="http://localhost:1337/reviews/" method="POST">
-          <input type="hidden" name="restaurant_id" value=""/>
-          <label>Name:
-            <input type="text" name="name" value="">
+      </section>
+      <section id="add-reviews">
+          <h3 id="reviews-header">Add Review</h3>
+        <form>
+          <input type="hidden" name="restaurant_id" value="" />
+          <label>Name*:
+            <input type="text" name="name" placeholder="Enter your name" value="" required="required">
           </label>
-          <br>
-          <label>Rating:
-             <input type="text" name="rating" value="">
+          <label>Rating*:
+            <input type="text" name="rating" placeholder="Enter a rating (1 to 5)" value="" required="required" pattern="[1-5]{1}" title="Rating (1-5)">
           </label>
-          <label>Comments:
-            <input type="text" name="comments" value="">
+          <label id="comment-label">Comments*:
+            <textarea name="comments" placeholder="Enter your comments" required></textarea>
           </label>
           <button type="submit">Submit Review</button>
         </form>
       </section>
     </div>
+
     <button id="toggle-button" onclick="toggleMap()">
       <svg x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
         <title>Toggle map</title>
@@ -67,6 +70,7 @@
         </g>
       </svg>
     </button>
+    <div id="online-alert"></div>
   </main>
   <footer id="footer">
     Copyright (c) 2017
@@ -78,6 +82,7 @@
   <script type="application/javascript" charset="utf-8" src="js/idb.js"></script>
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <script type="text/javascript" src="js/restaurant_info.js"></script>
+  <script type="text/javascript" src="js/connection.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2s2CKiGPYkP7R6UWtyBtOBXRZsf7Y5_c&libraries=places&callback=initMap"></script>
 
 </body>

@@ -36,9 +36,20 @@ class DBHelper {
         reviews = await Idb.getAll('reviews');
         reviews = reviews.filter(item => +item.restaurant_id === +id)
       }
-      return reviews && reviews.length > 0 ? reviews : null;
+      return reviews || [];
     } catch(error) {
-      return null;
+      return [];
+    }
+  }
+
+  static async fetchOfflineReviews(id) {
+    try {
+      let reviews;
+        reviews = await Idb.getAll('offline-reviews');
+        reviews = reviews.filter(item => +item.restaurant_id === +id)
+      return reviews || [];
+    } catch(error) {
+      return [];
     }
   }
 

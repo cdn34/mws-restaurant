@@ -20,8 +20,8 @@
   </header>
 
   <main id="maincontent">
-    <section id="map-container" role="application" tabindex="-1" aria-hidden="true">
-      <div id="map"></div>
+    <section id="map-container" tabindex="-1" aria-hidden="true">
+      <div id="map" role="application"></div>
     </section>
     <section id="filter-area">
       <div class="filter-options">
@@ -50,11 +50,13 @@
         </g>
       </svg>
     </button>
+    <div id="online-alert"></div>
   </main>
   <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/idb@2.1.2/lib/idb.min.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/idb.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/connection.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2s2CKiGPYkP7R6UWtyBtOBXRZsf7Y5_c&libraries=places&callback=initMap"></script>
   <script>
     if (navigator.serviceWorker) {

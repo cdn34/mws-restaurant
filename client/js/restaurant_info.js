@@ -2,17 +2,66 @@ let restaurant;
 var map;
 let reviews;
 
+const objectId = function () {
+  const timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+  return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
+      return (Math.random() * 16 | 0).toString(16);
+  }).toLowerCase();
+};
 
 document.addEventListener('DOMContentLoaded', event => {
   document.querySelector('input[name="restaurant_id"]').setAttribute('value', getParameterByName('id'));
 });
 
 
+document.forms[0].onsubmit = async(e) => {
+  e.preventDefault();
+  let review;
+  let isOfflineReview = false;
+  const formElement = document.querySelector('form');
+  if(navigator.onLine){
+    const params = new URLSearchParams(new FormData(formElement).entries());
+    review = await fetch('http://localhost:1337/reviews/', {
+      method:"POST",
+      body:params
+    }).then(res => res.json());
+    // console.log(review);
+  } else {
+    review = {};
+    isOfflineReview = true;
+    new FormData(formElement).forEach(function(value, key){
+      review[key] = value;
+    });
+    review.id = objectId();
+    await Idb.insert('offline-reviews', [review]);
+  }
+
+  // Creates review DOM element, with normal style if was successfuly created
+  // or with a red bar if created while offline
+  const reviewElement = createReviewHTML(review, isOfflineReview);
+  // Adds review to the document
+  const ul = document.getElementById('reviews-list');
+  ul.appendChild(reviewElement);
+
+  // Clear form data
+  formElement.reset();
+}
+
 /**
  * Initialize Google map, called from HTML.
  */
 window.initMap = async () => {
-    reviews = await DBHelper.fetchReviews(getParameterByName('id'));
+    try {
+      reviews = await DBHelper.fetchReviews(getParameterByName('id'));
+      const offlineReviews = await DBHelper.fetchOfflineReviews(getParameterByName('id'));
+      //Gets all reviews for the restaurant (online && offline);
+      reviews = reviews.concat(offlineReviews);
+      if(reviews.length === 0)
+        reviews = null;
+    } catch(error){
+      console.log('Error fetching reviews: ', error);
+    }
+    
     fetchRestaurantFromURL((error, restaurant) => {
       if (error) { // Got an error!
         console.error(error);
@@ -127,7 +176,10 @@ const fillReviewsHTML = () => {
   }
   const ul = document.getElementById('reviews-list');
   reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
+    // Offline reviews are stored with an Object id string to idb, 
+    // which is removed before they're sent to the server to be inserted
+    const isOfflineReview = review.id.constructor === Number ? false : true;
+    ul.appendChild(createReviewHTML(review, isOfflineReview));
   });
   container.appendChild(ul);
 }
@@ -135,15 +187,20 @@ const fillReviewsHTML = () => {
 /**
  * Create review HTML and add it to the webpage.
  */
-const createReviewHTML = (review) => {
+const createReviewHTML = (review, isOfflineReview) => {
   const li = document.createElement('li');
   li.setAttribute('role', 'listitem');
+  li.setAttribute('id', `review-${review.id}`)
   const name = document.createElement('p');
+  isOfflineReview && (name.style.backgroundColor = '#ea104e');
   name.innerHTML = review.name;
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  isOfflineReview && (date.style.backgroundColor = '#ea104e');
+  date.innerHTML = review.updatedAt 
+                    ? new Date(review.updatedAt).toDateString()
+                    : new Date().toDateString();
   li.appendChild(date);
 
   const rating = document.createElement('p');

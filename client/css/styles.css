@@ -364,7 +364,7 @@ nav h1 a {
 #reviews-container {
   padding: 30px 40px 80px;
 }
-#reviews-container h3 {
+#reviews-container h3, #add-reviews h3{
   /* color: #f58500; */
   color: #1046df;
   font-size: 24pt;
@@ -425,6 +425,10 @@ nav h1 a {
   font-weight: 400;
 }
 
+#reviews-list li p:nth-child(4) {
+  width:100%;
+}
+
 #restaurant-hours {
   background-color: #fff;
   width: 100%;
@@ -447,11 +451,11 @@ nav h1 a {
 
 #toggle-button {
   display: none;
-  width: 48px;
+  width: 52px;
   position: fixed;
   bottom: 20px;
   right: 20px;
-  height: 48px;
+  height: 52px;
   background-color: #e9104f;
   fill: #fff;
   border-radius: 100%;
@@ -463,6 +467,68 @@ nav h1 a {
 
 #toggle-button:active {
   background-color: #af1313;
+}
+
+#add-reviews {
+  padding: 20px 40px;
+}
+
+#add-reviews form {
+  display: flex;
+  flex-direction: column;
+}
+
+#add-reviews form label {
+  color: #1046df;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+#add-reviews form input {
+  width:100%;
+  height: 25px;
+  padding: 5px;
+}
+
+#add-reviews #comment-label {
+  display: flex;
+  flex-direction: column;
+}
+
+#add-reviews form textarea {
+  width: 100%;
+  max-width: 100%;
+  min-height: 150px;
+  padding: 5px;
+}
+
+#add-reviews form button {
+  width: 120px;
+  height: 30px;
+  border-radius: 4px;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.3);
+}
+
+#online-alert {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 20px;
+  left: calc(50% - 90px);
+  height: 50px;
+  width: 180px;
+  border-radius: 4px;
+  background-color: #333;
+  color: #fff;
+  font-size: 16px;
+  will-change: transform;
+  z-index: 1;
+  transform: translateY(70px);
+  transition: transform 0.3s ease-in-out;
+}
+
+.online-alert-active {
+  transform: none !important;
 }
 
 
